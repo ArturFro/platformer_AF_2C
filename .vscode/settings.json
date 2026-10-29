@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Artur_Fromeliusz_2c_platformer.sln"
+    "dotnet.defaultSolution": "platformer_AF_2C.sln"
 }
