@@ -1,51 +1,76 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SendRay : MonoBehaviour
 {
-    [SerializeField] private float distance;
     [SerializeField] private LayerMask layerMask;
-    private Ray ray;
     [SerializeField] private GameObject moveWall;
 
+    private Camera cam;
 
-
-    private void Ray()
+    private void Awake()
     {
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        cam = Camera.main;
 
-        ray.origin = transform.position;
-        ray.direction = ray.direction;
-
-        print("ray");
-
-        if (Physics.Raycast(ray, out RaycastHit hit, distance, layerMask))
+        if (cam == null)
         {
-            print("switch");
-            switch(hit.transform.tag)
-            {
-
-                case "Move Wall":
-                moveWall = hit.transform.gameObject;
-                MoveWall();
-                break;
-
-               
-            }
+            Debug.LogError("Nie znaleziono kamery MainCamera!");
         }
     }
 
-    private void MoveWall()
+    private void Update()
     {
-
-    }
-   
-    void Update()
-    {
-        if(Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
         {
-            Ray();
-        } 
+            CheckWall();
+        }
+    }
+
+    private void CheckWall()
+    {
+        if (cam == null)
+            return;
+
+        Vector3 mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 point = new Vector2(mousePosition.x, mousePosition.y);
+
+        Collider2D hit = Physics2D.OverlapPoint(point, layerMask);
+
+        if (hit == null)
+        {
+            Debug.Log("Nic nie trafiono!");
+            return;
+        }
+
+        Debug.Log("Trafiono: " + hit.name);
+
+        if (hit.CompareTag("Horizontal"))
+        {
+            moveWall = hit.gameObject;
+            
+            MoveHorizontal();
+        }
+        else if(hit.CompareTag("Vertical"))
+        {
+            moveWall = hit.gameObject;
+            MoveVertical();
+        }
+    }
+
+    private void MoveHorizontal()
+    {
+        if(moveWall != null)
+        {
+            moveWall.transform.position = cam.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 20;
+            print("horizontal");
+        }  
+    }
+
+    private void MoveVertical()
+    {
+        if(moveWall != null)
+        {
+            moveWall.transform.position = cam.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 20;
+            print("vertical");
+        }     
     }
 }
