@@ -304,7 +304,7 @@ public class Player : MonoBehaviour
             }
 
 
-            if (hit.CompareTag("Ground"))
+            if (hit.CompareTag("Ground") || hit.CompareTag("Horizontal") || hit.CompareTag("Vertical"))
             {
                 onGround = true;
 
@@ -367,7 +367,7 @@ public class Player : MonoBehaviour
             }
 
 
-            if (hit.CompareTag("Ground"))
+            if (hit.CompareTag("Ground") || hit.CompareTag("Horizontal") || hit.CompareTag("Vertical"))
             {
                 touchingWall = true;
 

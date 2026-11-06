@@ -4,6 +4,7 @@ public class SendRay : MonoBehaviour
 {
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private GameObject moveWall;
+    [SerializeField] private Vector3 wektor;
 
     private Camera cam;
 
@@ -60,7 +61,9 @@ public class SendRay : MonoBehaviour
     {
         if(moveWall != null)
         {
-            moveWall.transform.position = cam.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 20;
+            wektor = cam.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 20;
+            wektor.Set(moveWall.transform.position.x, wektor.y, wektor.z);
+            moveWall.transform.position = wektor;
             print("horizontal");
         }  
     }
@@ -69,7 +72,9 @@ public class SendRay : MonoBehaviour
     {
         if(moveWall != null)
         {
-            moveWall.transform.position = cam.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 20;
+            wektor = cam.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 20;
+            wektor.Set(wektor.x, moveWall.transform.position.y, wektor.z);
+            moveWall.transform.position = wektor;
             print("vertical");
         }     
     }
