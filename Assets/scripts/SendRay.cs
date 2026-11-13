@@ -1,3 +1,4 @@
+using Unity.Collections;
 using UnityEngine;
 
 public class SendRay : MonoBehaviour
@@ -64,7 +65,7 @@ public class SendRay : MonoBehaviour
             wektor = cam.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 20;
             wektor.Set(moveWall.transform.position.x, wektor.y, wektor.z);
             moveWall.transform.position = wektor;
-            print("horizontal");
+            
         }  
     }
 
@@ -75,7 +76,16 @@ public class SendRay : MonoBehaviour
             wektor = cam.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 20;
             wektor.Set(wektor.x, moveWall.transform.position.y, wektor.z);
             moveWall.transform.position = wektor;
-            print("vertical");
+            if(moveWall.transform.position.x > moveWall.GetComponent<MouseMoveWall>().positive.position.x)
+            {
+                wektor.Set(moveWall.GetComponent<MouseMoveWall>().positive.position.x, moveWall.transform.position.y, moveWall.transform.position.z);
+                moveWall.transform.position = wektor;
+            }
+             if(moveWall.transform.position.x < moveWall.GetComponent<MouseMoveWall>().negative.position.x)
+            {
+                wektor.Set(moveWall.GetComponent<MouseMoveWall>().negative.position.x, moveWall.transform.position.y, moveWall.transform.position.z);
+                moveWall.transform.position = wektor;
+            }
         }     
     }
 }
